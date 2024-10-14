@@ -5,9 +5,10 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
+    const location=useLocation();
     return (
         <>
         {/* <div>Navbar</div> */}
@@ -26,7 +27,15 @@ const Navbar = () => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 2 }}>
                         LEARNERS
                     </Typography>
-                    
+                    {/* Conditionally render buttons based on the current route */}
+                    {location.pathname === '/home' ? (
+                        <>
+                            <Button href='/home' color="inherit">Home</Button>
+                            <Link to='/add'><Button color="inherit">Add New</Button></Link>
+                        </>
+                    ) : location.pathname === '/' ? (
+                        <Button href='/' color="inherit"></Button>
+                    ) : null}
                 </Toolbar>
             </AppBar>
         </Box>

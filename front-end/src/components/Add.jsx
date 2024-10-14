@@ -1,31 +1,63 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Add = () => {
-    const [form, setCourse] = useState({
+    const [form, setForm] = useState({
+        id: '',
         title: '',
+        category:'',
+        description:'',
         image: '',
-        price: '',
-        rating: ''
+        duration: '',
+        fee: ''
     })
 
     let fetchValue = (e) => {
         // console.log(event);
-        setCourse({ ...form, [e.target.name]: e.target.value })
+        setForm({ ...form, [e.target.name]: e.target.value })
     }
 
     const location=useLocation()//
+    const navigate=useNavigate();
     let sentData = () => {
         // console.log(course);
         if(location.state!=null){
-            axios.put('http://localhost:3000/home/edit/'+location.state.course._id,form).then((res))
-        }
+            axios.put('http://localhost:3000/home/edit/'+location.state.course._id,form)
+            .then((res)=>{
+                // alert("Submitted");
+                navigate('/home');
+            })
+            .catch((error) =>{
+                console.log(error);
+            })
+        }else{
+            axios.post('http://localhost:3000/home/add',form).then((res)=>{
+                alert('added succesfully');
+                navigate('/home');
+        })
+        .catch((error)=>{
+            console.log(error);
+        });
     }
+    };
+    useEffect(()=>{
+        if(location.state!=null){
+            setForm({...form,
+                id:location.state.course.courseId,
+                title:location.state.course.courseName,
+                category:location.state.course.courseCategory,
+                description:location.state.course.courseDescription,
+                image:location.state.course.courseImage,
+                duration:location.state.course.courseDuration,
+                fee:location.state.course.courseFee
+            })
+    }
+},[])
 
     return (
 
@@ -34,7 +66,7 @@ const Add = () => {
             <h2>New course</h2><br />
 
             <TextField id="outlined-basic"
-                // value={course.empName} 
+                value={form.id} 
                 label="Course Id"
                 variant="outlined"
                 name="id"
@@ -42,7 +74,7 @@ const Add = () => {
 
             <TextField id="outlined-basic"
                 // onChange={ }
-                // value={course.empId}
+                value={form.title}
                 label="Course Name"
                 variant="outlined"
                 name="title"
@@ -50,7 +82,7 @@ const Add = () => {
 
             <TextField id="outlined-basic"
                 // onChange={ }
-                // value={course.empId}
+                value={form.category}
                 label="Course Category"
                 variant="outlined"
                 name="category"
@@ -58,28 +90,28 @@ const Add = () => {
 
             <TextField id="outlined-basic"
                 // onChange={ }
-                // value={course.empId}
+                value={form.description}
                 label="Course Description"
                 variant="outlined"
                 name="description"
                 onChange={fetchValue} /><br /><br />
 
             <TextField id="outlined-basic"
-                // value={course.empName} 
+                value={form.image} 
                 label="Image URL"
                 variant="outlined"
                 name="image"
                 onChange={fetchValue} /><br /><br />
 
             <TextField id="outlined-basic"
-                // value={course.empName} 
+                value={form.duration} 
                 label="Course Duration"
                 variant="outlined"
                 name="duration"
                 onChange={fetchValue} /><br /><br />
 
             <TextField id="outlined-basic"
-                // value={course.empDept} 
+                value={form.fee} 
                 label="Course Fee"
                 variant="outlined"
                 name="fee"

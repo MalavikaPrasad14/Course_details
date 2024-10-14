@@ -43,13 +43,13 @@ const Home = () => {
 
     const navigate=useNavigate();
     function handleUpdate(course) {
-        navigate('/add',{state:(course)})
+        navigate('/add',{state:{course}})
     }
 
 
     return (
         <>
-            <Box sx={{ flexGrow: 1 }}>
+            {/* <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static" color="inherit" sx={{ backgroundColor: "gray-dark" }}>
                     <Toolbar>
                         <IconButton
@@ -69,7 +69,7 @@ const Home = () => {
 
                     </Toolbar>
                 </AppBar>
-            </Box>
+            </Box> */}
 
             <Grid container spacing={3} sx={{ padding: 2 }}>
                 {courses.map((course) => (

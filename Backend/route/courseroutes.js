@@ -1,9 +1,9 @@
-const express=require('express');
-const router = new express.Router();
+const express = require('express');
+const router = express.Router();
 
 const cModel = require('../model/coursedata');
 router.use(express.json());
-router.use(express.urlencoded({extended:true}));
+router.use(express.urlencoded({ extended: true }));
 
 
 
@@ -33,10 +33,11 @@ router.get('/', async (req, res) => {
 
 // POST OPERATION
 
-router.post('/addnew',async (req,res)=>{
+router.post('/addnew', async (req, res) => {
+    console.log(req.body)
     try {
         const data = await cModel.create(req.body);
-
+        // console.log(data)
         res.status(200).send('Post successful');
 
 
@@ -46,10 +47,13 @@ router.post('/addnew',async (req,res)=>{
 });
 
 // put operation
-router.put('/edit/:id',async(req,res)=>{
+router.put('/edit/:id', async (req, res) => {
+    console.log(req.body);
     try {
-        const id=req.params.id;
-        const data=await cModel.findByIdAndUpdate(id,req.body);
+        const id = req.params.id;
+        // console.log(id)
+        const data = await cModel.findByIdAndUpdate(id, req.body);
+
         res.status(200).send('Update successful');
 
     } catch (error) {
@@ -60,10 +64,10 @@ router.put('/edit/:id',async(req,res)=>{
 
 //delete op
 
-router.delete('/delete/:id',async(req,res)=>{
+router.delete('/delete/:id', async (req, res) => {
     try {
-        const id=req.params.id;
-        const data=await cModel.findByIdAndDelete(id,req.body);
+        const id = req.params.id;
+        const data = await cModel.findByIdAndDelete(id, req.body);
         res.status(200).send('delete successful');
 
     } catch (error) {
@@ -76,4 +80,4 @@ router.delete('/delete/:id',async(req,res)=>{
 
 
 
-module.exports=router;
+module.exports = router;

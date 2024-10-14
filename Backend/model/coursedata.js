@@ -7,7 +7,7 @@ const cSchema=   mongoose.Schema({
     courseCategory: String,
     courseDescription: String,
     courseDuration: String,
-    courseFee: Number
+    courseFee: String
 
 });
 

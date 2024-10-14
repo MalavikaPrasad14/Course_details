@@ -8,14 +8,6 @@ import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import { Link } from 'react-router-dom';
-
-
-
 
 
 const Home = () => {
@@ -33,11 +25,14 @@ const Home = () => {
     // const nav = useNavigate();
     const handleDelete = (id) => {
         axios.delete('http://localhost:3000/home/delete/' + id)
-            .then(() => {
+            .then((res) => {
                 // nav('/')
                 alert('Data Deleted')
                 window.location.reload()
             })
+            .catch((err) => {
+                console.log(err);
+                });
 
     }
 
@@ -49,27 +44,7 @@ const Home = () => {
 
     return (
         <>
-            {/* <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static" color="inherit" sx={{ backgroundColor: "gray-dark" }}>
-                    <Toolbar>
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            sx={{ mr: 2 }}
-                        >
-
-                        </IconButton>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 2 }}>
-                            LEARNERS
-                        </Typography>
-                        <Button href='/home' color="inherit">Home</Button>
-                        <Link to={'/add'}> <Button color="inherit">Add New</Button></Link >
-
-                    </Toolbar>
-                </AppBar>
-            </Box> */}
+            
 
             <Grid container spacing={3} sx={{ padding: 2 }}>
                 {courses.map((course) => (

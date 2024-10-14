@@ -2,6 +2,7 @@ import { Button, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 const Login = () => {
@@ -15,14 +16,24 @@ const Login = () => {
     }
 
     let sendData=()=>{
-        if((user.username=="admin")&&(user.password=="12345"))
-        {
-            sessionStorage.setItem("username","admin");
-            navigate('/home');
-        }
-        else{
-            alert("Invalid username or password")
-        }
+        // if((user.username=="admin")&&(user.password=="12345"))
+        // {
+        //     sessionStorage.setItem("username","admin");
+        //     navigate('/home');
+        // }
+        // else{
+        //     alert("Invalid username or password")
+        // }
+        axios.post("http://localhost:3000/user/login",user)
+        .then((res)=>{
+            console.log(res)
+            alert(res.data.message)
+            if(res.data.usertoken)
+            {
+                localStorage.setItem("token",res.data.usertoken);
+                navigate('/home');
+            }
+        })
     }
 
     const navigate= useNavigate();
